@@ -45,6 +45,8 @@ app = FastAPI()
 async def start_game(interval: float, background_tasks: BackgroundTasks):
     if isGameRunning:
         return {"error": "Game is running"}
+    if interval < 1 or interval > 60:
+        return {"error": "Invalid interval"}
     game_id = str(uuid.uuid4())
     background_tasks.add_task(game, game_id, interval)
     return {"game_id": game_id}
