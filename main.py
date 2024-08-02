@@ -5,15 +5,17 @@ from datetime import datetime
 
 
 if __name__ == "__main__":
-    interval = 1
+    interval = 5
     api = API("cmi", "password")
     cards = Cards()
+    api.full_reset()
     api.init_exchange()
     api.start_trading()
 
     for round in range(1, 21, 1):
-        n_cards = cards.get_first_n_cards(round)
-        api.news(str(n_cards))
+        print("Round ", round)
+        n_cards = cards.get_nth_card(round)
+        api.news(n_cards)
         time.sleep(interval)
 
     api.settlement_prices(
@@ -23,5 +25,5 @@ if __name__ == "__main__":
     now = datetime.now()
 
     with open(f"market_trades_{now}", 'w') as file:
-        file.write(api.download_market_trades())
+        file.write(str(api.download_market_trades()))
     api.full_reset()

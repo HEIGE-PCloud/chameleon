@@ -1,60 +1,74 @@
 import random
 
 
+def format_card(n: int):
+    if n >= 2 and n <= 10:
+        return str(n)
+    if n == 1:
+        return "A"
+    if n == 11:
+        return "J"
+    if n == 12:
+        return "Q"
+    if n == 13:
+        return "K"
+    raise RuntimeError("Invalid card", n)
+
+
 class Cards:
     all_cards = [
-        "A",
-        "A",
-        "A",
-        "A",
-        "2",
-        "2",
-        "2",
-        "2",
-        "3",
-        "3",
-        "3",
-        "3",
-        "4",
-        "4",
-        "4",
-        "4",
-        "5",
-        "5",
-        "5",
-        "5",
-        "6",
-        "6",
-        "6",
-        "6",
-        "7",
-        "7",
-        "7",
-        "7",
-        "8",
-        "8",
-        "8",
-        "8",
-        "9",
-        "9",
-        "9",
-        "9",
-        "10",
-        "10",
-        "10",
-        "10",
-        "J",
-        "J",
-        "J",
-        "J",
-        "Q",
-        "Q",
-        "Q",
-        "Q",
-        "K",
-        "K",
-        "K",
-        "K",
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        8,
+        9,
+        9,
+        9,
+        9,
+        10,
+        10,
+        10,
+        10,
+        11,
+        11,
+        11,
+        11,
+        12,
+        12,
+        12,
+        12,
+        13,
+        13,
+        13,
+        13,
     ]
 
     def __init__(self) -> None:
@@ -69,6 +83,9 @@ class Cards:
 
     def get_first_n_cards(self, n: int):
         return self.cards[:n]
+
+    def get_nth_card(self, n: int) -> str:
+        return format_card(self.cards[n - 1])
 
     def get_call_price(self):
         future_price = self.get_future_price()
