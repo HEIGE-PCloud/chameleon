@@ -18,6 +18,9 @@ def game(game_id: str, interval: int = 60):
     api.start_trading()
 
     for round in range(1, 21, 1):
+        if not isGameRunning:
+            print("End Game early!")
+            return
         print("Round ", round)
         n_cards = cards.get_nth_card(round)
         api.news(n_cards)
@@ -42,3 +45,8 @@ async def start_game(interval: int, background_tasks: BackgroundTasks):
     game_id = str(uuid.uuid4())
     background_tasks.add_task(game, game_id, interval)
     return f"Success starting a new game with interval {interval}"
+
+@app.post("/end_game")
+def end_game():
+    global isGameRunning
+    isGameRunning = False
