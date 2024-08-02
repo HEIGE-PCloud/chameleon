@@ -83,6 +83,25 @@ class API:
         )
         print(response.json())
 
+    def full_reset(self):
+        url = f"{self._cmi_url}/api/configuration/full-reset"
+        response = requests.put(url, headers=_get_headers(self._auth), verify=False)
+        print("Full reset ", response.ok)
+
+    def news(self, message: str):
+        url = f"{self._cmi_url}/api/news"
+        response = requests.post(
+            url, headers=_get_headers(self._auth), json={"message": message}, verify=False
+        )
+        print("Message ", response.ok)
+
+    def download_market_trades(self):
+        url = f"{self._cmi_url}/api/trade?"
+        response = requests.get(
+            url, headers=_get_headers(self._auth), verify=False
+        )
+        return response.json()
+
     def _authenticate(self):
         auth = {"username": self.username, "password": self.password}
         url = f"{self._cmi_url}/api/user/authenticate"
@@ -93,5 +112,3 @@ class API:
 
 if __name__ == "__main__":
     api = API("cmi", "password")
-    api.init_exchange()
-    api.start_trading()
