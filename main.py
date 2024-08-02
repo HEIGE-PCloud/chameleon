@@ -5,7 +5,7 @@ from datetime import datetime
 import logging
 import uuid
 from fastapi import FastAPI, BackgroundTasks
-
+import json
 isGameRunning = False
 
 
@@ -59,4 +59,4 @@ def end_game():
 @app.get("/trades/{game_id}")
 def trades(game_id: str):
     with open(f"market_trades_{game_id}", "r") as file:
-        return file.read()
+        return json.load(file)
