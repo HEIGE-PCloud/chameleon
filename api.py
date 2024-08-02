@@ -59,17 +59,17 @@ class API:
         response = requests.put(
             url, headers=_get_headers(self._auth), json=round(), verify=False
         )
-        logger.info("Init exchange ", response.json())
+        logger.info(f"Init exchange {response.json()}")
 
     def start_trading(self):
         url = f"{self._cmi_url}/api/round/start-trading"
         response = requests.put(url, headers=_get_headers(self._auth), verify=False)
-        logger.info("Start trading ", response.ok)
+        logger.info(f"Start trading {response.ok}")
 
     def stop_trading(self):
         url = f"{self._cmi_url}/api/round/stop-trading"
         response = requests.put(url, headers=_get_headers(self._auth), verify=False)
-        logger.info("Stop trading ", response.ok)
+        logger.info(f"Stop trading {response.ok}")
 
     def settlement_prices(
         self, future_price: float, call_price: float, put_price: float
@@ -83,19 +83,19 @@ class API:
         response = requests.post(
             url, headers=_get_headers(self._auth), json=json, verify=False
         )
-        logger.info("Settlement prices sent", response.json())
+        logger.info(f"Settlement prices sent {response.json()}")
 
     def full_reset(self):
         url = f"{self._cmi_url}/api/configuration/full-reset"
         response = requests.put(url, headers=_get_headers(self._auth), verify=False)
-        logger.info("Full reset ", response.ok)
+        logger.info(f"Full reset {response.ok}")
 
     def news(self, message: str):
         url = f"{self._cmi_url}/api/news"
         response = requests.post(
             url, headers=_get_headers(self._auth), json={"message": message}, verify=False
         )
-        logger.info("News sent ", response.ok, " message ", message)
+        logger.info(f"News sent {response.ok}  message {message}")
 
     def download_market_trades(self):
         url = f"{self._cmi_url}/api/trade?"
