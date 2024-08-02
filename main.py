@@ -9,7 +9,7 @@ from fastapi import FastAPI, BackgroundTasks
 isGameRunning = False
 
 
-def game(game_id: str, interval: int = 60):
+def game(game_id: str, interval: float = 60):
     global isGameRunning
     isGameRunning = True
     api = API("cmi", "password")
@@ -42,7 +42,7 @@ app = FastAPI()
 
 
 @app.post("/start_game/{interval}")
-async def start_game(interval: int, background_tasks: BackgroundTasks):
+async def start_game(interval: float, background_tasks: BackgroundTasks):
     if isGameRunning:
         return {"error": "Game is running"}
     game_id = str(uuid.uuid4())
