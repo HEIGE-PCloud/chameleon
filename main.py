@@ -2,9 +2,12 @@ from api import API
 from cards import Cards
 import time
 from datetime import datetime
+import logging
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
     interval = 5
     api = API("cmi", "password")
     cards = Cards()

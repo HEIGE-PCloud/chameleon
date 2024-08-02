@@ -1,6 +1,8 @@
 import requests
 
 import urllib3
+import logging
+logger = logging.getLogger(__name__)
 
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
@@ -57,17 +59,17 @@ class API:
         response = requests.put(
             url, headers=_get_headers(self._auth), json=round(), verify=False
         )
-        print(response.json())
+        logger.info("Init exchange ", response.json())
 
     def start_trading(self):
         url = f"{self._cmi_url}/api/round/start-trading"
         response = requests.put(url, headers=_get_headers(self._auth), verify=False)
-        print("Start trading ", response.ok)
+        logger.info("Start trading ", response.ok)
 
     def stop_trading(self):
         url = f"{self._cmi_url}/api/round/stop-trading"
         response = requests.put(url, headers=_get_headers(self._auth), verify=False)
-        print("Stop trading ", response.ok)
+        logger.info("Stop trading ", response.ok)
 
     def settlement_prices(
         self, future_price: float, call_price: float, put_price: float
@@ -81,19 +83,19 @@ class API:
         response = requests.post(
             url, headers=_get_headers(self._auth), json=json, verify=False
         )
-        print(response.json())
+        logger.info("Settlement prices sent", response.json())
 
     def full_reset(self):
         url = f"{self._cmi_url}/api/configuration/full-reset"
         response = requests.put(url, headers=_get_headers(self._auth), verify=False)
-        print("Full reset ", response.ok)
+        logger.info("Full reset ", response.ok)
 
     def news(self, message: str):
         url = f"{self._cmi_url}/api/news"
         response = requests.post(
             url, headers=_get_headers(self._auth), json={"message": message}, verify=False
         )
-        print("Message ", response.ok)
+        logger.info("News sent ", response.ok, " message ", message)
 
     def download_market_trades(self):
         url = f"{self._cmi_url}/api/trade?"
