@@ -26,4 +26,3 @@ if __name__ == "__main__":
 
     with open(f"market_trades_{now}", 'w') as file:
         file.write(str(api.download_market_trades()))
-    api.full_reset()
