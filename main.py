@@ -8,6 +8,7 @@ from fastapi import FastAPI, BackgroundTasks
 
 isGameRunning = False
 
+
 def game(game_id: str, interval: int = 60):
     global isGameRunning
     isGameRunning = True
@@ -32,21 +33,30 @@ def game(game_id: str, interval: int = 60):
     api.stop_trading()
     now = datetime.now()
 
-    with open(f"market_trades_{game_id}", 'w') as file:
+    with open(f"market_trades_{game_id}", "w") as file:
         file.write(str(api.download_market_trades()))
     isGameRunning = False
 
+
 app = FastAPI()
+
 
 @app.post("/start_game/{interval}")
 async def start_game(interval: int, background_tasks: BackgroundTasks):
     if isGameRunning:
-        return "Game is running"
+        return {"error": "Game is running"}
     game_id = str(uuid.uuid4())
     background_tasks.add_task(game, game_id, interval)
-    return f"Success starting a new game with interval {interval}"
+    return {"game_id": game_id}
+
 
 @app.post("/end_game")
 def end_game():
     global isGameRunning
     isGameRunning = False
+
+
+@app.get("/trades/{game_id}")
+def trades(game_id: str):
+    with open(f"market_trades_{game_id}", "r") as file:
+        return file.read()
