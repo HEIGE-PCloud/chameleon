@@ -18,7 +18,7 @@ def round():
         "rounds": [
             {
                 "name": "DEFAULT",
-                "productSymbols": ["FUTURE", "150 CALL", "150 PUT"],
+                "productSymbols": ["FUTURE", "150 CALL", "130 PUT"],
                 "sessionCount": 1,
                 "positionLimits": [
                     {"productSymbol": "FUTURE", "shortLimit": 100, "longLimit": 100},
