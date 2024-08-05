@@ -22,6 +22,7 @@ def game(game_id: str, interval: float = 60):
     api.reset_trading()
     api.init_exchange()
     api.start_trading()
+    time.sleep(interval)
 
     for round in range(1, 21, 1):
         if not isGameRunning:
