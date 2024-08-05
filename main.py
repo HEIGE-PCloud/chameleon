@@ -1,19 +1,24 @@
+import math
 from api import API
 from cards import Cards
 import time
-from datetime import datetime
 import logging
 import uuid
-from fastapi import FastAPI, BackgroundTasks
+from pathlib import Path
 import json
-isGameRunning = False
 
+from fastapi import FastAPI, BackgroundTasks, HTTPException
+
+logging.basicConfig(level=logging.INFO)
+
+isGameRunning = False
 
 def game(game_id: str, interval: float = 60):
     global isGameRunning
     isGameRunning = True
     api = API("cmi", "password")
     cards = Cards()
+    # TODO: reset trades
     # api.full_reset()
     api.init_exchange()
     api.start_trading()
@@ -31,23 +36,25 @@ def game(game_id: str, interval: float = 60):
         cards.get_future_price(), cards.get_call_price(), cards.get_put_price()
     )
     api.stop_trading()
-    now = datetime.now()
 
     with open(f"market_trades_{game_id}", "w") as file:
-        file.write(str(api.download_market_trades()))
+        json.dump(api.download_market_trades(), file)
     isGameRunning = False
 
 
 app = FastAPI()
 
-
 @app.post("/start_game/{interval}")
 async def start_game(interval: float, background_tasks: BackgroundTasks):
+    global isGameRunning
+
     if isGameRunning:
-        return {"error": "Game is running"}
-    if interval < 1 or interval > 60:
-        return {"error": "Invalid interval"}
+        raise HTTPException(status_code=409, detail="Game is running")
+    if interval < 1 or interval > 60 or math.isnan(interval):
+        raise HTTPException(status_code=400, detail="Nice try")
     game_id = str(uuid.uuid4())
+
+    isGameRunning = True
     background_tasks.add_task(game, game_id, interval)
     return {"game_id": game_id}
 
@@ -60,5 +67,11 @@ def end_game():
 
 @app.get("/trades/{game_id}")
 def trades(game_id: str):
-    with open(f"market_trades_{game_id}", "r") as file:
-        return json.load(file)
+    my_file = Path(f"./market_trades_{game_id}")
+
+    if not my_file.is_file():
+        raise HTTPException(status_code=400, detail="Invalid game id")
+
+    with open(my_file, "r") as file:
+        return file.read()
+

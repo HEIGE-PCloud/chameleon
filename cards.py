@@ -1,4 +1,6 @@
 import random
+import logging
+logger = logging.getLogger(__name__)
 
 
 def format_card(n: int):
@@ -74,6 +76,10 @@ class Cards:
     def __init__(self) -> None:
         self.cards = self.all_cards.copy()
         self.shuffle()
+        logger.info("A set of cards have been initialized")
+        logger.info(f"Future price: {self.get_future_price()}")
+        logger.info(f"Call price: {self.get_call_price()}")
+        logger.info(f"Put price: {self.get_put_price()}")
 
     def shuffle(self):
         random.shuffle(self.cards)
