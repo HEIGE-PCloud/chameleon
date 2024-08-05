@@ -23,7 +23,7 @@ def round():
                 "positionLimits": [
                     {"productSymbol": "FUTURE", "shortLimit": 100, "longLimit": 100},
                     {"productSymbol": "150 CALL", "shortLimit": 250, "longLimit": 250},
-                    {"productSymbol": "150 PUT", "shortLimit": 250, "longLimit": 250},
+                    {"productSymbol": "130 PUT", "shortLimit": 250, "longLimit": 250},
                 ],
             }
         ],
@@ -37,7 +37,7 @@ def round():
                 "contractSize": 1,
             },
             {
-                "symbol": "150 PUT",
+                "symbol": "130 PUT",
                 "tickSize": 0.25,
                 "startingPrice": 0,
                 "contractSize": 1,
