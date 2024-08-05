@@ -18,8 +18,7 @@ def game(game_id: str, interval: float = 60):
     isGameRunning = True
     api = API("cmi", "password")
     cards = Cards()
-    # TODO: reset trades
-    # api.full_reset()
+    api.reset_trading()
     api.init_exchange()
     api.start_trading()
 
