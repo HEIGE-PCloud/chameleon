@@ -29,7 +29,7 @@ def round():
         ],
         "defaultRound": "DEFAULT",
         "products": [
-            {"symbol": "FUTURE", "tickSize": 1, "startingPrice": 0, "contractSize": 1},
+            {"symbol": "FUTURE", "tickSize": 0.5, "startingPrice": 0, "contractSize": 1},
             {
                 "symbol": "150 CALL",
                 "tickSize": 0.25,
