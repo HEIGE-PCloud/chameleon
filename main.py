@@ -16,6 +16,7 @@ isGameRunning = False
 def game(game_id: str, interval: float = 60):
     global isGameRunning
     isGameRunning = True
+    logging.info(f"Starting game with id {game_id}")
     api = API("cmi", "password")
     cards = Cards()
     api.reset_trading()
@@ -24,10 +25,10 @@ def game(game_id: str, interval: float = 60):
 
     for round in range(1, 21, 1):
         if not isGameRunning:
-            print("End Game early!")
+            logging.warn("End game early!")
             return
-        print("Round ", round)
         n_cards = cards.get_nth_card(round)
+        logging.info(f"Starting round {round} with card {n_cards}")
         api.news(n_cards)
         time.sleep(interval)
 
